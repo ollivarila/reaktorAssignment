@@ -1,0 +1,26 @@
+{
+	"name": "reaktor-assignment",
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "turbo run dev",
+		"build": "turbo run build",
+		"start": "NODE_ENV=production node backend/app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ollivarila/crea-discord-bot.git"
+	},
+	"author": "Olli Varila",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ollivarila/crea-discord-bot/issues"
+	},
+	"homepage": "https://github.com/ollivarila/crea-discord-bot#readme",
+	"devDependencies": {
+		"turbo": "^1.6.3"
+	},
+	"workspaces": [
+		"backend",
+		"frontend"
+	]
+}
