@@ -3,7 +3,18 @@ const convert = require('xml-js')
 
 const getData = () => {
 	const url = 'https://assignments.reaktor.com/birdnest/drones'
-	return axios.get(url).then(res => res.data)
+	return axios
+		.get(url)
+		.then(res => res.data)
+		.catch(err => null)
+}
+
+const getPilotData = async serialNumber => {
+	const url = `https://assignments.reaktor.com/birdnest/pilots/${serialNumber}`
+	return axios
+		.get(url)
+		.then(res => res.data)
+		.catch(err => null)
 }
 
 const getDroneData = async () => {
@@ -20,4 +31,5 @@ const getDroneData = async () => {
 
 module.exports = {
 	getDroneData,
+	getPilotData,
 }
