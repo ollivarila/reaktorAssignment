@@ -7,8 +7,9 @@ const HeaderBar = () => {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
 				<Toolbar>
-					<WrongLocationIcon sx={{ marginRight: '10px' }} />
-					<Typography variant="h6">Project Birdnest</Typography>
+					<WrongLocationIcon sx={{ marginRight: '10px' }} /> 
+					<Typography variant="h6" sx={{ flexGrow: 1}}>Project Birdnest</Typography>
+          <Typography variant="h6" sx={{ justifySelf: 'center' }}>Olli Varila 2023</Typography>
 				</Toolbar>
 			</AppBar>
 		</Box>

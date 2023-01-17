@@ -43,7 +43,6 @@ const createViolation = async (droneData, distance) => {
 	const exists = await Violation.findOne({ serialNumber: serialNumber })
 
 	if (exists) {
-		exists.visible = true
 		if (distance < exists.closestDistance) {
 			exists.closestDistance = distance
 		}
@@ -70,8 +69,13 @@ const createViolation = async (droneData, distance) => {
 	await violation.save()
 }
 
-const checkNewViolations = async () => {
-	const dronesData = await getDroneData()
+const updateExisting = async (distance, droneData) => {
+  const serialNumber = getFieldValue(droneData, 'serialNumber')
+
+  await Violation.findOneAndUpdate({ serialNumber }, { currentDistance: distance })
+}
+
+const checkNewViolations = async (dronesData) => {
 
 	const violations = []
 
@@ -79,7 +83,9 @@ const checkNewViolations = async () => {
 		const distance = checkIfViolates(drone.elements)
 		if (distance < 100) {
 			violations.push({ droneData: drone.elements, distance })
-		}
+		} else {
+      updateExisting(distance, drone.elements)
+    }
 	})
 
 	await Promise.all(
@@ -89,8 +95,10 @@ const checkNewViolations = async () => {
 	)
 }
 
-const checkOldViolations = async () => {
+const checkOldViolations = async (dronesData = []) => {
 	const violations = await Violation.find({})
+
+
 	violations.forEach(violation => {
 		const now = new Date(Date.now())
 		const lastSeen = new Date(violation.updatedAt)
@@ -100,12 +108,21 @@ const checkOldViolations = async () => {
 			console.log('Violation more than ten minutes old')
 			violation.remove()
 		}
+
+    // if(dronesData.filter(data => {
+    //   return violation.serialNumber === getFieldValue(data.elements, 'serialNumber')
+    // }).length > 0) {
+    //   violation.updatedAt = new Date(Date.now())
+    //   violation.save()
+    // }
+
 	})
 }
 
 const checkViolations = async () => {
-	await checkNewViolations()
-	await checkOldViolations()
+  const dronesData = await getDroneData()
+	await checkNewViolations(dronesData)
+	await checkOldViolations(dronesData)
 }
 
 module.exports = checkViolations
