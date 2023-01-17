@@ -3,3 +3,4 @@ node_modules
 .turbo/
 response.xml
 .prettierrc
+dist/
