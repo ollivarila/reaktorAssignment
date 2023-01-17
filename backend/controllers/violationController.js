@@ -54,6 +54,11 @@ const createViolation = async (droneData, distance) => {
 
 	const pilotData = await getPilotData(serialNumber)
 
+	if (!pilotData) {
+		console.log('Pilot not found, skipping')
+		return
+	}
+
 	const { firstName, lastName, phoneNumber, email } = pilotData
 
 	const name = `${firstName} ${lastName}`
