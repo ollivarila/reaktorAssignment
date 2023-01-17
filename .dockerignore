@@ -1,0 +1,9 @@
+fly.toml
+Dockerfile
+.dockerignore
+frontend
+node_modules
+.git
+turbo.json
+.turbo/
+.prettierrc
